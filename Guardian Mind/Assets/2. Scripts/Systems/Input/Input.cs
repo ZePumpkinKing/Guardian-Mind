@@ -62,6 +62,33 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""turn"",
+                    ""type"": ""Button"",
+                    ""id"": ""3dc46ff2-4e66-42b9-aaab-001f939397e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""select"",
+                    ""type"": ""Button"",
+                    ""id"": ""ecf090ea-d1a2-475d-86ac-b292a2795f2f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""234c8e7e-27de-4ecf-9c3a-3cc2c52030da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -174,6 +201,39 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""action"": ""rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""effe5b96-cfbc-431c-a611-af49dfbdd2a5"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e964281-e578-4d87-bfb7-2eada1efceea"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf1e141b-de88-4420-a4aa-b66df7ec91a8"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -186,6 +246,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_tactical_move = m_tactical.FindAction("move", throwIfNotFound: true);
         m_tactical_zoom = m_tactical.FindAction("zoom", throwIfNotFound: true);
         m_tactical_rotate = m_tactical.FindAction("rotate", throwIfNotFound: true);
+        m_tactical_turn = m_tactical.FindAction("turn", throwIfNotFound: true);
+        m_tactical_select = m_tactical.FindAction("select", throwIfNotFound: true);
+        m_tactical_interact = m_tactical.FindAction("interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -251,6 +314,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_tactical_move;
     private readonly InputAction m_tactical_zoom;
     private readonly InputAction m_tactical_rotate;
+    private readonly InputAction m_tactical_turn;
+    private readonly InputAction m_tactical_select;
+    private readonly InputAction m_tactical_interact;
     public struct TacticalActions
     {
         private @Input m_Wrapper;
@@ -259,6 +325,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @move => m_Wrapper.m_tactical_move;
         public InputAction @zoom => m_Wrapper.m_tactical_zoom;
         public InputAction @rotate => m_Wrapper.m_tactical_rotate;
+        public InputAction @turn => m_Wrapper.m_tactical_turn;
+        public InputAction @select => m_Wrapper.m_tactical_select;
+        public InputAction @interact => m_Wrapper.m_tactical_interact;
         public InputActionMap Get() { return m_Wrapper.m_tactical; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -280,6 +349,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @rotate.started += instance.OnRotate;
             @rotate.performed += instance.OnRotate;
             @rotate.canceled += instance.OnRotate;
+            @turn.started += instance.OnTurn;
+            @turn.performed += instance.OnTurn;
+            @turn.canceled += instance.OnTurn;
+            @select.started += instance.OnSelect;
+            @select.performed += instance.OnSelect;
+            @select.canceled += instance.OnSelect;
+            @interact.started += instance.OnInteract;
+            @interact.performed += instance.OnInteract;
+            @interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(ITacticalActions instance)
@@ -296,6 +374,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @rotate.started -= instance.OnRotate;
             @rotate.performed -= instance.OnRotate;
             @rotate.canceled -= instance.OnRotate;
+            @turn.started -= instance.OnTurn;
+            @turn.performed -= instance.OnTurn;
+            @turn.canceled -= instance.OnTurn;
+            @select.started -= instance.OnSelect;
+            @select.performed -= instance.OnSelect;
+            @select.canceled -= instance.OnSelect;
+            @interact.started -= instance.OnInteract;
+            @interact.performed -= instance.OnInteract;
+            @interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(ITacticalActions instance)
@@ -319,5 +406,8 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
+        void OnTurn(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

@@ -23,41 +23,50 @@ public class MapGenerator : MonoBehaviour
         cornerGrid = new GridMap(levelSize, Vector3.one, Vector3.one * 5);
         wallGrid = new GridMap(levelSize, Vector3.one * 5, Vector3.one);
 
-        foreach (Vector3 tile in roomGrid.tiles)
+        foreach (Tile tile in roomGrid.tiles)
         {
-            Room(tile);
+            Room(tile.position);
         }
 
-        foreach (Vector3 tile in cornerGrid.tiles)
+        foreach (Tile tile in cornerGrid.tiles)
         {
-            Corner(tile);
+            Corner(tile.position);
         }
 
-        foreach (Vector3 tile in wallGrid.tiles)
+        foreach (Tile tile in wallGrid.tiles)
         {
-            Wall(tile, true);
-            Wall(tile, false);
+            Wall(tile.position, true);
+            Wall(tile.position, false);
         }
     }
 
     void Room(Vector3 location)
     {
-        Debug.Log("Making a room");
-        GameObject newItem = GameObject.Instantiate(rooms[(int)Mathf.Floor(Random.Range(0, rooms.Length))]);
-        newItem.transform.position = location;
+        Tile targetTile = roomGrid.GetTile(location);
+
+        if (targetTile.floor == null) {
+            Debug.Log("Making a room");
+            GameObject newItem = GameObject.Instantiate(rooms[(int)Mathf.Floor(Random.Range(0, rooms.Length))]);
+            newItem.transform.position = location;
+            targetTile.floor = newItem.transform;
+        }
     }
 
     void Wall(Vector3 location, bool vertical)
     {
-        Debug.Log("Making a wall");
-        if (vertical) {
+        Tile targetTile = wallGrid.GetTile(location);
+
+        if (targetTile.floor == null) {
+            Debug.Log("Making a wall");
             GameObject newItem = GameObject.Instantiate(walls[(int)Mathf.Floor(Random.Range(0, walls.Length))]);
             newItem.transform.position = location;
-            newItem.transform.rotation = Quaternion.Euler(0, 90, 0);
-            newItem.transform.position += new Vector3(0, 0, 7);
-        } else {
-            GameObject newItem = GameObject.Instantiate(walls[(int)Mathf.Floor(Random.Range(0, walls.Length))]);
-            newItem.transform.position = location;
+            if (vertical) { 
+                newItem.transform.rotation = Quaternion.Euler(0, 90, 0);
+                newItem.transform.position += new Vector3(0, 0, 7);
+            }
+            if (newItem.GetComponent<Tile>().interactible != null) {
+                targetTile.interactible = newItem.GetComponent<Tile>().interactible;
+            }
         }
     }
     void Corner(Vector3 location)
