@@ -818,6 +818,10 @@ MonoBehaviour:
   rotationSpeed: 1
   levelSize: {x: 70, y: 15, z: 70}
   camHeight: 3
+  cursorStates:
+  - {fileID: 2100000, guid: 7aac8a64565b4c14686b251d3e8e474f, type: 2}
+  - {fileID: 2100000, guid: 2360e86b043899d478f75c7ce0e24473, type: 2}
+  - {fileID: 2100000, guid: cc9df014771350f4aa0cfe7dc92e2ba3, type: 2}
 --- !u!1 &7849145805584019583
 GameObject:
   m_ObjectHideFlags: 0

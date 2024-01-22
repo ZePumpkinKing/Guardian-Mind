@@ -10,19 +10,18 @@ public class Player : MonoBehaviour
     [SerializeField] float rotationSpeed;
     public Vector3 levelSize;
     [SerializeField] float camHeight;
+    [SerializeField] Material[] cursorStates;
 
     // External Parts
     Input input;
-    //GridMap map;
+    GridMap map;
+
     Camera cam;
     Transform camAnchor;
 
     // Tile Selection Cursor
     GameObject cursor;
     Transform[] cursorModel;
-
-    // Grid
-    int[,,] grid;
 
     // Input System Enable
     private void OnEnable() { input.Enable(); }
@@ -37,7 +36,7 @@ public class Player : MonoBehaviour
         input = new Input();
         cursor = GameObject.FindWithTag("Cursor");
         cursorModel = cursor.transform.GetComponentsInChildren<Transform>();
-        grid = new int[(int)levelSize.x, (int)levelSize.y, (int)levelSize.z];
+        map = new GridMap(Vector3.one,Vector3.one,Vector3.zero);
     }
 
     // PREPARE TO ENGAGE THE INFINITE LOOP THAT CRASHES YOUR COMPUTER
@@ -62,6 +61,19 @@ public class Player : MonoBehaviour
             BulkActive(cursorModel, false);
         }
 
+        Tile selectedTile = map.GetTile(cursor.transform.position);
+        if (selectedTile != null) {
+            bool selectionBlocked = false;
+            if (selectionBlocked) {
+                CursorColor(2);
+            } else if (selectedTile.interactible != null && !selectionBlocked) {
+                CursorColor(1);
+            } else {
+                CursorColor(0);
+            }
+        }
+        
+
         // Camera Movement (hopefully I can ignore all this math I did now)
         float zoom = input.tactical.zoom.ReadValue<Vector2>().y / -120;
         Vector2 move = input.tactical.move.ReadValue<Vector2>();
@@ -84,6 +96,12 @@ public class Player : MonoBehaviour
     // Aligns a Vector3 to the current tile's origin
     Vector3 FindGrid(Vector3 offPoint) {
         return new Vector3((int)Mathf.Floor(Mathf.Clamp(offPoint.x, 0, levelSize.x)), (int)Mathf.Floor(Mathf.Clamp(offPoint.z, 0, levelSize.z)), (int)Mathf.Floor(Mathf.Clamp(offPoint.y, 0, levelSize.y)));
+    }
+
+    void CursorColor(int setting) {
+        for (int i = 1; i < cursorModel.Length; i++) {
+            cursorModel[i].GetComponent<MeshRenderer>().material = cursorStates[setting];
+        }
     }
 
     // Grid Interaction

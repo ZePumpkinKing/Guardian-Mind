@@ -20,6 +20,14 @@ public class GridMap {
                 }
             }
         }
+
+        for (int a = 0; a < tiles.GetLength(0); a++) {
+            for (int b = 0; b < tiles.GetLength(1); b++) {
+                for (int c = 0; c < tiles.GetLength(2); c++) {
+                    FindNeighbors(tiles[a, b, c]);
+                }
+            }
+        }
     }
 
     public void FindNeighbors(Tile origin)
@@ -39,10 +47,16 @@ public class GridMap {
     }
 
     public Tile FindRelative(Tile origin, Vector3 deltaPosition) {
-        return tiles[(int)origin.position.x + (int)deltaPosition.x, (int)origin.position.y + (int)deltaPosition.y, (int)origin.position.z + (int)deltaPosition.z];
+        return this.GetTile(origin.position + deltaPosition);
     }
 
     public Tile GetTile(Vector3 target) {
-        return tiles[(int)target.x, (int)target.y, (int)target.z];
+        int x = (int)target.x;
+        int y = (int)target.y;
+        int z = (int)target.z;
+        if (x < 0 || x > tiles.GetLength(0) -1) { return null; }
+        if (y < 0 || y > tiles.GetLength(1) -1) { return null; }
+        if (z < 0 || z > tiles.GetLength(2) -1) { return null; }
+        return tiles[x, y, z];
     }
 }
