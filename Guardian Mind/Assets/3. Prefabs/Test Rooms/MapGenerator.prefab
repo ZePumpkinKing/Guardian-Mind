@@ -46,10 +46,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rooms:
   - {fileID: 8798676375408337915, guid: a9cce3c37626333448d03bc9a1769a24, type: 3}
+  - {fileID: 8656561232408795505, guid: efaae7b2aeabb0548a492d564d49a2bb, type: 3}
   walls:
   - {fileID: 2188880013695807392, guid: 6538ea30a954b2247a01b2d0558fde71, type: 3}
   - {fileID: 7961085791603574458, guid: 7d7476e8b28de3f46a3ab7cab476328e, type: 3}
   - {fileID: 8994582182708027099, guid: d2bd2087c5fe2704bba9d0ef081bef8f, type: 3}
   corners:
   - {fileID: 8601851167112569512, guid: d26f3d5c98e725b49881b738cee83130, type: 3}
+  - {fileID: 4145960410067960131, guid: e9b6906e80a08dd4082ae6f5805fabd7, type: 3}
   levelSize: {x: 10, y: 1, z: 10}
+  drone: {fileID: 5652456651357513933, guid: 9842ade6549195c47841858c57f85c0e, type: 3}
+  dronePort: {fileID: 2385901736581757853, guid: 9bbda1cb48c86054c87972fe1fe2106c,
+    type: 3}

@@ -14,14 +14,17 @@ public class Player : MonoBehaviour
 
     // External Parts
     Input input;
-    GridMap map;
+    public GridMap map;
 
     Camera cam;
     Transform camAnchor;
 
+    Drone[] drones;
+
     // Tile Selection Cursor
     GameObject cursor;
     Transform[] cursorModel;
+    GameObject selectedDrone;
 
     // Input System Enable
     private void OnEnable() { input.Enable(); }
@@ -32,11 +35,14 @@ public class Player : MonoBehaviour
     // *Yawns*
     private void Awake()
     {
+        //input.tactical.select.performed += context => Select();
+        //input.tactical.interact.performed += context => Interact();
+
         // Initializations
         input = new Input();
         cursor = GameObject.FindWithTag("Cursor");
         cursorModel = cursor.transform.GetComponentsInChildren<Transform>();
-        map = new GridMap(Vector3.one,Vector3.one,Vector3.zero);
+        map = new GridMap(levelSize,Vector3.one,Vector3.zero);
     }
 
     // PREPARE TO ENGAGE THE INFINITE LOOP THAT CRASHES YOUR COMPUTER
@@ -46,6 +52,9 @@ public class Player : MonoBehaviour
         //map = FindAnyObjectByType<GridMap>();
         cam = Camera.main;
         camAnchor = cam.transform.parent;
+        camAnchor.position = new Vector3(levelSize.x / 2, 0, levelSize.y / 2);
+
+        drones = new Drone[5];
     }
 
     // "Muh FPS bruh"
@@ -72,7 +81,6 @@ public class Player : MonoBehaviour
                 CursorColor(0);
             }
         }
-        
 
         // Camera Movement (hopefully I can ignore all this math I did now)
         float zoom = input.tactical.zoom.ReadValue<Vector2>().y / -120;
@@ -82,6 +90,8 @@ public class Player : MonoBehaviour
             cam.transform.Translate(0, zoom, 0, gameObject.transform);
         }
         camAnchor.transform.Rotate(0, input.tactical.rotate.ReadValue<float>() * rotationSpeed, 0, Space.World);
+        
+
     }
 
     /* ---------------------------------------------- Custom Functions -------------------------------------------------- */
@@ -104,27 +114,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Grid Interaction
-    
-
-    /*
-    void ToGrid(function doToX, function doToY, function doToZ)
-    {
-        for (int a = 0; a < listList[0].Length; a++) {
-            doToX(a);
-        }
-        for (in b = 0; b < listList[1].Length; b++) {
-            doToY(b);
-        }
-        for (in c = 0; c < listList[1].Length; c++) {
-            doToZ(c);
-        }
+    void Select() {
+        //selectedDrone = map.GetTile(cursor.transform.position).character.gameObject;
     }
 
-    void Update()
-    {
-        ToGrid(DoThis(), DoThat(), DoTheOtherThing());
-    }
-    */
+    void Interact() {
 
+    }
 }

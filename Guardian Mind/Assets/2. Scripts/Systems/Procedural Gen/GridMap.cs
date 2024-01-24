@@ -16,7 +16,7 @@ public class GridMap {
                 for (int c = 0; c < tiles.GetLength(2); c++) {
                     tiles[a, b, c] = new Tile(new Vector3(a, b, c), this);
                     tiles[a, b, c].position.Scale(cellSize + spacing);
-                    Debug.Log("New tile at: " + a + ", " + b + ", " + c);
+                    //Debug.Log("New tile at: " + a + ", " + b + ", " + c);
                 }
             }
         }
@@ -30,8 +30,14 @@ public class GridMap {
         }
     }
 
-    public void FindNeighbors(Tile origin)
-    {
+    /* This function sets a given Tile's neighbors array to this pattern by index:
+
+                        7   0   1
+
+                        6   @   2
+
+                        5   4   3                                               */
+    public void FindNeighbors(Tile origin) {
         Tile[] neighbors = new Tile[8];
 
         neighbors[0] = FindRelative(origin, new Vector3(0, 0, 1));

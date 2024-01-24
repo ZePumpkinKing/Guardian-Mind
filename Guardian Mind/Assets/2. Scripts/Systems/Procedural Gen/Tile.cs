@@ -13,8 +13,7 @@ public class Tile
     public Transform interactible;
     public Vector3 position;
 
-    public Tile(Vector3 position, GridMap map)
-    {
+    public Tile(Vector3 position, GridMap map) {
         this.neighbors = new Tile[8];
         this.map = map;
         this.floor = null;
@@ -24,8 +23,7 @@ public class Tile
         this.position = position;
     }
 
-    public Tile(Transform floor, Transform air, Transform character, Transform interactible, Vector3 position, GridMap map)
-    {
+    public Tile(Transform floor, Transform air, Transform character, Transform interactible, Vector3 position, GridMap map) {
         this.map = map;
         this.floor = floor;
         this.air = air;
@@ -34,28 +32,9 @@ public class Tile
         this.position = position;
     }
 
-    void SetFloor(Transform newItem)
-    {
-        this.floor = newItem;
-    }
-
-    void SetAir(Transform newItem)
-    {
-        this.air = newItem;
-    }
-
-    void SetCharacter(Transform newItem)
-    {
-        this.character = newItem;
-    }
-
-    void SetInteractible(Transform newItem)
-    {
-        this.interactible = newItem;
-    }
-
-    void SetPosition(Vector3 newItem)
-    {
-        this.position = newItem;
-    }
+    void SetFloor(Transform newItem) { this.floor = newItem; }
+    void SetAir(Transform newItem) { this.air = newItem; }
+    void SetCharacter(Transform newItem) { this.character = newItem; }
+    void SetInteractible(Transform newItem) { this.interactible = newItem; }
+    void SetPosition(Vector3 newItem) { this.position = newItem; }
 }
